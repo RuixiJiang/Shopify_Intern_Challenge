@@ -1,11 +1,18 @@
 package challenge.demo.inventory.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "InventoryItem")
+@Table(
+        name = "InventoryItem",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "inventory_name_unique", columnNames = "name")
+        }
+)
 public class InventoryItem {
     @Id
     @SequenceGenerator(
@@ -26,8 +33,7 @@ public class InventoryItem {
     @Column(
             name = "name",
             nullable = false,
-            columnDefinition = "TEXT",
-            unique = true
+            columnDefinition = "TEXT"
     )
     private String name;
 
@@ -40,7 +46,7 @@ public class InventoryItem {
     @Column(
             name = "creation_date"
     )
-    private Date creation_date;
+    private LocalDate creation_date;
 
     @Column(
             name = "avail_status"
@@ -50,15 +56,14 @@ public class InventoryItem {
     @Column(
             name = "avail_date"
     )
-    private Date avail_date;
+    private LocalDate avail_date;
 
     @Column(
             name = "stock"
     )
     private Integer stock;
 
-    public InventoryItem(Long inventory_id, String name, String description, Date creation_date, Integer avail_status, Date avail_date, Integer stock) {
-        this.inventory_id = inventory_id;
+    public InventoryItem(String name, String description, LocalDate creation_date, Integer avail_status, LocalDate avail_date, Integer stock) {
         this.name = name;
         this.description = description;
         this.creation_date = creation_date;
@@ -95,11 +100,11 @@ public class InventoryItem {
         this.description = description;
     }
 
-    public Date getCreation_date() {
+    public LocalDate getCreation_date() {
         return creation_date;
     }
 
-    public void setCreation_date(Date creation_date) {
+    public void setCreation_date(LocalDate creation_date) {
         this.creation_date = creation_date;
     }
 
@@ -111,11 +116,11 @@ public class InventoryItem {
         this.avail_status = avail_status;
     }
 
-    public Date getAvail_date() {
+    public LocalDate getAvail_date() {
         return avail_date;
     }
 
-    public void setAvail_date(Date avail_date) {
+    public void setAvail_date(LocalDate avail_date) {
         this.avail_date = avail_date;
     }
 
