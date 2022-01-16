@@ -35,7 +35,7 @@ public class InventoryItemService {
             }
             return inventoryItemRepository.save(inventoryItem);
         }
-        return inventoryItem;
+        throw new IllegalStateException("Illegal action to create new inventory item.");
     }
 
     @Transactional

@@ -69,6 +69,10 @@ public class InventoryGroup {
         return group_items;
     }
 
+    public InventoryGroup(String name) {
+        this.name = name;
+    }
+
     public void setGroup_items(Set<InventoryItem> group_items) {
         this.group_items = group_items;
     }
@@ -92,7 +96,4 @@ public class InventoryGroup {
                 '}';
     }
 
-    public InventoryGroup(String name) {
-        this.name = name;
-    }
 }

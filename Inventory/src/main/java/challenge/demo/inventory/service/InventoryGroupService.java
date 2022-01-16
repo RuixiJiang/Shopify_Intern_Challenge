@@ -19,15 +19,16 @@ public class InventoryGroupService {
     private InventoryItemRepository inventoryItemRepository;
 
     @Transactional
-    public void addNewGroup(InventoryGroup inventoryGroup){
+    public InventoryGroup addNewGroup(InventoryGroup inventoryGroup){
         String inventoryGroupName = inventoryGroup.getName();
         if(inventoryGroupName != null && inventoryGroupName.length() > 0){
             Optional<InventoryGroup> inventoryGroupOptional = inventoryGroupRepository.findInventoryGroupByName(inventoryGroupName);
             if(inventoryGroupOptional.isPresent()){
                 throw new IllegalStateException("Name taken.");
             }
-            inventoryGroupRepository.save(inventoryGroup);
+            return inventoryGroupRepository.save(inventoryGroup);
         }
+        throw new IllegalStateException("Illegal action to create a new group.");
     }
 
     @Transactional

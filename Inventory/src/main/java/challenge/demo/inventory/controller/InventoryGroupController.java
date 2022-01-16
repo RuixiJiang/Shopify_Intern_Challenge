@@ -1,8 +1,6 @@
 package challenge.demo.inventory.controller;
 
-import challenge.demo.inventory.dao.InventoryItemRepository;
 import challenge.demo.inventory.model.InventoryGroup;
-import challenge.demo.inventory.model.InventoryItem;
 import challenge.demo.inventory.service.InventoryGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +16,8 @@ public class InventoryGroupController {
     }
 
     @PostMapping
-    public void addNewGroup(@RequestBody InventoryGroup inventoryGroup){
-        inventoryGroupService.addNewGroup(inventoryGroup);
+    public InventoryGroup addNewGroup(@RequestBody InventoryGroup inventoryGroup){
+        return inventoryGroupService.addNewGroup(inventoryGroup);
     }
 
     @PutMapping("/{groupId}/add_item/{itemId}")
