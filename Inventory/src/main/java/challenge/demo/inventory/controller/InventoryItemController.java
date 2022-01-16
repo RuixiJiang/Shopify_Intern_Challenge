@@ -25,8 +25,8 @@ public class InventoryItemController {
     }
 
     @PostMapping
-    public void registerNewInventoryItem(@RequestBody InventoryItem inventoryItem){
-        inventoryItemService.addNewInventoryItem(inventoryItem);
+    public InventoryItem registerNewInventoryItem(@RequestBody InventoryItem inventoryItem){
+        return inventoryItemService.addNewInventoryItem(inventoryItem);
     }
 
     @DeleteMapping(path = "{InventoryItemId}")

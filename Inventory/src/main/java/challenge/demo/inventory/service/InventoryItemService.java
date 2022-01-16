@@ -26,15 +26,16 @@ public class InventoryItemService {
     }
 
     @Transactional
-    public void addNewInventoryItem(InventoryItem inventoryItem) {
+    public InventoryItem addNewInventoryItem(InventoryItem inventoryItem) {
         String inventoryItemName = inventoryItem.getName();
         if(inventoryItemName != null && inventoryItemName.length() > 0){
             Optional<InventoryItem> inventoryItemOptional = inventoryItemRepository.findInventoryItemByName(inventoryItemName);
             if(inventoryItemOptional.isPresent()){
                 throw new IllegalStateException("Name taken.");
             }
-            inventoryItemRepository.save(inventoryItem);
+            return inventoryItemRepository.save(inventoryItem);
         }
+        return inventoryItem;
     }
 
     @Transactional

@@ -22,9 +22,13 @@ public class InventoryGroupController {
         inventoryGroupService.addNewGroup(inventoryGroup);
     }
 
-    @PutMapping("/{groupId}/items/{itemId}")
+    @PutMapping("/{groupId}/add_item/{itemId}")
     public InventoryGroup putItemToGroup(@PathVariable Long groupId, @PathVariable Long itemId){
         return inventoryGroupService.putItemToGroup(groupId, itemId);
     }
 
+    @DeleteMapping("/{groupId}/delete_item/{itemId}")
+    public InventoryGroup removeItemFromGroup(@PathVariable Long groupId, @PathVariable Long itemId){
+        return inventoryGroupService.removeItemFromGroup(groupId, itemId);
+    }
 }

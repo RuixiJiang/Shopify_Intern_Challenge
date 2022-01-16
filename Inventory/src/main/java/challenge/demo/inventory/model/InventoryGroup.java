@@ -75,6 +75,12 @@ public class InventoryGroup {
 
     public void putItem(InventoryItem inventoryItem) {
         group_items.add(inventoryItem);
+        inventoryItem.getGroups().add(this);
+    }
+
+    public void removeItem(InventoryItem inventoryItem) {
+        group_items.remove(inventoryItem);
+        inventoryItem.getGroups().remove(this);
     }
 
     @Override

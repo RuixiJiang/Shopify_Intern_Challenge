@@ -39,4 +39,14 @@ public class InventoryGroupService {
         inventoryGroup.putItem(inventoryItem);
         return inventoryGroupRepository.save(inventoryGroup);
     }
+
+    @Transactional
+    public InventoryGroup removeItemFromGroup(Long groupId, Long itemId) {
+        InventoryGroup inventoryGroup = inventoryGroupRepository.findById(groupId).orElseThrow(()
+                -> new IllegalStateException("Inventory group with id " + groupId + " does not exist."));
+        InventoryItem inventoryItem = inventoryItemRepository.findById(itemId).orElseThrow(()
+                -> new IllegalStateException("Inventory item with id " + itemId + " does not exist."));
+        inventoryGroup.removeItem(inventoryItem);
+        return inventoryGroupRepository.save(inventoryGroup);
+    }
 }
