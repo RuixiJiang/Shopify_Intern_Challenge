@@ -5,8 +5,11 @@ import challenge.demo.inventory.model.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class InventoryItemService {
@@ -17,19 +20,53 @@ public class InventoryItemService {
         this.inventoryItemRepository = inventoryItemRepository;
     }
 
+    @Transactional
     public List<InventoryItem> getInventoryItems(){
         return inventoryItemRepository.findAll();
     }
 
+    @Transactional
     public void addNewInventoryItem(InventoryItem inventoryItem) {
-        System.out.println(inventoryItem);
-        inventoryItemRepository.save(inventoryItem);
+        String inventoryItemName = inventoryItem.getName();
+        if(inventoryItemName != null && inventoryItemName.length() > 0){
+            Optional<InventoryItem> inventoryItemOptional = inventoryItemRepository.findInventoryItemByName(inventoryItemName);
+            if(inventoryItemOptional.isPresent()){
+                throw new IllegalStateException("Name taken.");
+            }
+            inventoryItemRepository.save(inventoryItem);
+        }
     }
 
+    @Transactional
     public void deleteInventoryItem(Long inventoryItemId) {
         if(!inventoryItemRepository.existsById(inventoryItemId)){
             throw new IllegalStateException("Inventory item with id " + inventoryItemId + " does not exist.");
         }
         inventoryItemRepository.deleteById(inventoryItemId);
+    }
+
+    @Transactional
+    public void updateInventoryItem(Long inventoryItemId, String name, String description, LocalDate avail_date, Integer stock) {
+        InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()
+                -> new IllegalStateException("Inventory item with id " + inventoryItemId + " does not exist."));
+        if(name != null && name.length() > 0 && !Objects.equals(name, inventoryItem.getName())){
+            Optional<InventoryItem> inventoryItemOptional = inventoryItemRepository.findInventoryItemByName(name);
+            if(inventoryItemOptional.isPresent()){
+                throw new IllegalStateException("Name taken.");
+            }
+            inventoryItem.setName(name);
+        }
+
+        if(!Objects.equals(description, inventoryItem.getDescription())){
+            inventoryItem.setDescription(description);
+        }
+
+        if(!avail_date.isEqual(inventoryItem.getAvail_date())){
+            inventoryItem.setAvail_date(avail_date);
+        }
+
+        if(stock != inventoryItem.getStock()){
+            inventoryItem.setStock(stock);
+        }
     }
 }

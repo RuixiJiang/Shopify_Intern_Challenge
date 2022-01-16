@@ -1,8 +1,12 @@
 package challenge.demo.inventory.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -30,6 +34,10 @@ public class InventoryItem {
     )
     private Long inventory_id;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "group_items")
+    private Set<InventoryGroup> groups = new HashSet<>();
+
     @Column(
             name = "name",
             nullable = false,
@@ -49,11 +57,6 @@ public class InventoryItem {
     private LocalDate creation_date;
 
     @Column(
-            name = "avail_status"
-    )
-    private Integer avail_status;
-
-    @Column(
             name = "avail_date"
     )
     private LocalDate avail_date;
@@ -63,11 +66,10 @@ public class InventoryItem {
     )
     private Integer stock;
 
-    public InventoryItem(String name, String description, LocalDate creation_date, Integer avail_status, LocalDate avail_date, Integer stock) {
+    public InventoryItem(String name, String description, LocalDate creation_date, LocalDate avail_date, Integer stock) {
         this.name = name;
         this.description = description;
         this.creation_date = creation_date;
-        this.avail_status = avail_status;
         this.avail_date = avail_date;
         this.stock = stock;
     }
@@ -108,14 +110,6 @@ public class InventoryItem {
         this.creation_date = creation_date;
     }
 
-    public Integer getAvail_status() {
-        return avail_status;
-    }
-
-    public void setAvail_status(Integer avail_status) {
-        this.avail_status = avail_status;
-    }
-
     public LocalDate getAvail_date() {
         return avail_date;
     }
@@ -132,6 +126,14 @@ public class InventoryItem {
         this.stock = stock;
     }
 
+    public Set<InventoryGroup> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<InventoryGroup> groups) {
+        this.groups = groups;
+    }
+
     @Override
     public String toString() {
         return "InventoryItem{" +
@@ -139,7 +141,6 @@ public class InventoryItem {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", creation_date=" + creation_date +
-                ", avail_status=" + avail_status +
                 ", avail_date=" + avail_date +
                 ", stock=" + stock +
                 '}';

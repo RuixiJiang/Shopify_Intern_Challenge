@@ -33,4 +33,13 @@ public class InventoryItemController {
     public void deleteInventoryItem(@PathVariable("InventoryItemId")Long inventoryItemId){
         inventoryItemService.deleteInventoryItem(inventoryItemId);
     }
+
+    @PutMapping(path = "/update/{InventoryItemId}")
+    public void updateInventoryItem(@PathVariable("InventoryItemId")Long inventoryItemId,
+                                    @RequestParam(required = false) String name,
+                                    @RequestParam(required = false) String description,
+                                    @RequestParam(required = false) LocalDate avail_date,
+                                    @RequestParam(required = false) Integer stock){
+        inventoryItemService.updateInventoryItem(inventoryItemId, name, description, avail_date, stock);
+    }
 }
