@@ -34,11 +34,11 @@ public class InventoryItemController {
     }
 
     @PutMapping(path = "/update/{InventoryItemId}")
-    public void updateInventoryItem(@PathVariable("InventoryItemId")Long inventoryItemId,
+    public InventoryItem updateInventoryItem(@PathVariable("InventoryItemId")Long inventoryItemId,
                                     @RequestParam(required = false) String name,
                                     @RequestParam(required = false) String description,
                                     @RequestParam(required = false) LocalDate avail_date,
                                     @RequestParam(required = false) Integer stock){
-        inventoryItemService.updateInventoryItem(inventoryItemId, name, description, avail_date, stock);
+        return inventoryItemService.updateInventoryItem(inventoryItemId, name, description, avail_date, stock);
     }
 }

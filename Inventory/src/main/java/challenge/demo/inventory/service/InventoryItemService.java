@@ -47,7 +47,7 @@ public class InventoryItemService {
     }
 
     @Transactional
-    public void updateInventoryItem(Long inventoryItemId, String name, String description, LocalDate avail_date, Integer stock) {
+    public InventoryItem updateInventoryItem(Long inventoryItemId, String name, String description, LocalDate avail_date, Integer stock) {
         InventoryItem inventoryItem = inventoryItemRepository.findById(inventoryItemId).orElseThrow(()
                 -> new IllegalStateException("Inventory item with id " + inventoryItemId + " does not exist."));
         if(name != null && name.length() > 0 && !Objects.equals(name, inventoryItem.getName())){
@@ -58,16 +58,18 @@ public class InventoryItemService {
             inventoryItem.setName(name);
         }
 
-        if(!Objects.equals(description, inventoryItem.getDescription())){
+        if(description != null && !Objects.equals(description, inventoryItem.getDescription())){
             inventoryItem.setDescription(description);
         }
 
-        if(!avail_date.isEqual(inventoryItem.getAvail_date())){
+        if(avail_date != null && !Objects.equals(avail_date, inventoryItem.getAvail_date())){
             inventoryItem.setAvail_date(avail_date);
         }
 
-        if(stock != inventoryItem.getStock()){
+        if(stock != null && stock != inventoryItem.getStock()){
             inventoryItem.setStock(stock);
         }
+
+        return inventoryItem;
     }
 }
